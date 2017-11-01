@@ -9,7 +9,7 @@
 
 http://sparql.uniprot.org/sparql
 
-## `glycosylation_annotation` query glycosylation_annotation
+## `result` query glycosylation_annotation
 
 ```sparql
 PREFIX up:<http://purl.uniprot.org/core/> 
@@ -56,9 +56,20 @@ limit 100
 ## output
 
 ```javascript
-({glycosylation_annotation}) => glycosylation_annotation.results.bindings.map(
-	binding => Object.keys(binding).map(
-		k => ({[k]: binding[k].value})
-	)
-);
+({result}) => {
+  var list = result.results.bindings;
+  var r = [];
+  for(var i = 0; i < list.length; i++){
+ 		var obj = {
+ 			site: list[i].site.value,
+ 			len: list[i].len.value,
+ 			protein: list[i].protein.value
+ 		};
+ 			if(list[i].evi) obj.evi = list[i].evi.value;
+ 			if(list[i].topic) obj.topic = list[i].topic.value;
+ 			if(list[i].title) obj.title = list[i].title.value;
+ 		r.push(obj);
+  }
+  return r;
+};
 ```
