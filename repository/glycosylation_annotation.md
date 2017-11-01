@@ -17,7 +17,7 @@ PREFIX uniprotkb:<http://purl.uniprot.org/uniprot/>
 PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX faldo:<http://biohackathon.org/resource/faldo#> 
 PREFIX foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?protein ?len ?site ?evi ?topic ?title
+SELECT DISTINCT ?protein ?site ?evi ?topic ?title
 WHERE 
 {
 	?state a rdf:Statement.
@@ -25,11 +25,6 @@ WHERE
 	?state rdf:subject ?protein.
 	# protein
 	?protein a up:Protein.
-
-	# seq-length
-	?seq up:sequenceFor ?protein.
-	?seq a up:Sequence.
-	?seq up:length ?len.
 
 	# glycosylation
 	?state rdf:object ?annotation.
@@ -49,7 +44,6 @@ WHERE
 	}
 }
 
-limit 100
 
 ```
 
@@ -62,7 +56,6 @@ limit 100
   for(var i = 0; i < list.length; i++){
  		var obj = {
  			site: list[i].site.value,
- 			len: list[i].len.value,
  			protein: list[i].protein.value
  		};
  			if(list[i].evi) obj.evi = list[i].evi.value;
